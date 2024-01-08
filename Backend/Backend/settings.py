@@ -127,4 +127,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Fernet Key
 ## ENTER ENCRYPTION KEY HERE ##
-KEY = b'OhKIyBr8YjhkrCz7Oto59UXolb0rNlFlsWGBJzSTfaE='
+# KEY = 
