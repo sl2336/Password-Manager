@@ -5,6 +5,10 @@ The passwords are encrypted and you have the ability to add/remove passwords as 
 # Requirements
 1. Create the environment file from requirements.txt
 2. Create a encryption key using the below and paste it in settings.py
-  Fernet.generate_key()
+```
+Fernet.generate_key()
+```
 3. You can then start up the application using:
-  python manage.py runserver
+```
+python manage.py runserver
+```
