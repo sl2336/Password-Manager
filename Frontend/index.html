@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Password Manager</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="main.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <!--We are getting an lock icon from this link, and &nbsp is nonbreaking space-->
+                <div class="brand"><a href=""><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Password Manager</a></div>
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="javascript:;" onclick="displayModal('login-modal')">Login</a></li>
+                    <li><a href="javascript:;" onclick="displayModal('signup-modal')">Signup</a></li>
+                    <li><a href="javascript:;" onclick="displayModal('password-modal')">View Passwords</a></li>
+                    <li><a href="javascript:;" onclick="displayModal('add-password-modal')">Add Password</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!--Modals: They are windows that will pop up on top of the main page-->
+        <!--Login Modal-->
+        <div class="modals-wrapper">
+
+            <span id="close-modal" title="close"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <div class="modal" id="login-modal">
+                <form action="">
+                    <h2>Login</h2>
+                    <input type="text" name="username" placeholder="username">
+                    <input type="text" name="password" placeholder="password">
+                    <input type="submit" value="login">                
+                </form>
+            </div>
+
+            <!--Signup Modal-->
+            <div class="modal" id="signup-modal">
+                <form action="">
+                    <h2>Signup</h2>
+                    <input type="text" name="username" placeholder="username">
+                    <input type="text" name="email" placeholder="email">
+
+                    <input type="text" name="password" placeholder="password">
+                    <input type="text" name="confirm-password" placeholder="confirm password">                
+                    <input type="submit" value="Register">
+                </form>
+            </div>
+
+            <!--Password Modal-->
+            <div class="modal" id="password-modal">
+                    <h2>URL or Name of Website</h2>
+                    <img width="80" height="80" src="https://cdn.pixabay.com/photo/2016/04/13/14/27/google-chrome-1326908_1280.png" alt="">
+                    <input type="email" name="email" value="email" id="email_to_copy"><i class="fa fa-copy copy" title="copy to clipboard" onclick="CopyToClipboard('email_to_copy')"></i>
+                    <input type="password" name="password" value="password" id="password_to_copy"><i class="fa fa-copy copy" title="copy to clipboard" onclick="CopyToClipboard('password_to_copy')"></i>
+            </div>
+
+            <!--Add Password Modal-->
+            <div class="modal" id="add-password-modal">
+                <form action="">
+                    <h2>Add New Password</h2>
+                    <input type="text" name="url" placeholder="url of website">
+                    <input type="text" name="email" placeholder="email">
+                    <input type="text" name="password" placeholder="password">               
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div class="actions">&nbsp;Actions <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                    <a href="" class="action-item">Delete</a>
+                    <a href="" class="action-item">View</a>
+                    <a href="" class="action-item">Update</a>
+                </div>
+                <img width="80" height="80" src="https://cdn.pixabay.com/photo/2016/04/13/14/27/google-chrome-1326908_1280.png" alt="">
+                <div class="name">Google Account</div>
+            </div>
+        </div>
+
+        <footer>
+            <a href="">Link to the SourceCode</a>
+        </footer>
+    </body>
+</html>

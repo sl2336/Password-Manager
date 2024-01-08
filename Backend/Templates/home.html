@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Password Manager</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <script src="{% static 'main.js' %}" defer></script>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <!--We are getting an lock icon from this link, and &nbsp is nonbreaking space-->
+                <div class="brand"><a href=""><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Password Manager</a></div>
+                <ul>
+                    <li><a href="">Home</a></li>
+                    {% if request.user.is_anonymous %}
+                    <li><a href="javascript:;" onclick="displayModal('login-modal')">Login</a></li>
+                    <li><a href="javascript:;" onclick="displayModal('signup-modal')">Signup</a></li>
+
+                    {% else %}
+                    <!--For users to logout-->
+                    <li><a href="javascript:;" onclick="document.getElementById('logout-btn').click();">Logout</a></li>
+                    <!--Notice how the button masks the post request using a input element underneath-->
+                    <form hidden="true" action="." method="POST">
+                        {% csrf_token %}
+                        <input type="submit" id="logout-btn" name="logout">
+                    </form>
+                    <li><a href="javascript:;" onclick="displayModal('add-password-modal')">Add Password</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+
+        <!--Display Messages-->
+        {% if messages %}
+            <div class="messages" style="text-align: center;">
+                {% for message in messages %}
+                <p>
+                    {% if message.tags == "error" %}
+                        <i class="fa fa-exclamation" aria-hidden="true"></i>
+                        {% else %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    {% endif %}
+                    &nbsp;{{message}}
+                </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!--Modals: They are windows that will pop up on top of the main page-->
+        
+        <!--Login Modal-->
+        <div class="modals-wrapper">
+
+            <span id="close-modal" title="close"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <div class="modal" id="login-modal">
+                <form action="." role="form" method="POST">
+                    {% csrf_token %}
+                    <h2>Login</h2>
+                    <input type="text" name="username" placeholder="username">
+                    <input type="password" name="password" placeholder="password">
+                    <input type="submit" value="login" name="login">                
+                </form>
+            </div>
+
+            <!--Signup Modal-->
+            <div class="modal" id="signup-modal">
+                <!--action element specifies where to send the form data-->
+                <!--http post is when the data is in the body and http get is when data is in url-->
+                <form action="." role="form" method="POST">
+                    <!--csrf: cross site request forgery-->
+                    <!--other sites can forge this form, so we require our backend-->
+                    <!--to send this token to the frontend, to validate its coming from our true webapp-->
+                    {% csrf_token %}
+                    <h2>Signup</h2>
+                    <input type="text" name="username" placeholder="username">
+                    <input type="email" name="email" placeholder="email">
+
+                    <input type="password" name="password" placeholder="password">
+                    <input type="password" name="confirm-password" placeholder="confirm password">                
+                    <input type="submit" value="Register" name="signup-form">
+                </form>
+            </div>
+
+            <!--Add Password Modal-->
+            <div class="modal" id="add-password-modal">
+                <form action="." role="form" method="POST">
+                    {% csrf_token %}
+                    <h2>Add New Password</h2>
+                    <input type="text" name="url" placeholder="url of website">
+                    <input type="text" name="email" placeholder="email">
+                    <input type="password" name="password" placeholder="password">               
+                    <input type="submit" value="Save" name="add-password">
+                </form>
+            </div>
+
+        </div>
+
+        <div class="container">
+
+            <!--Template to load in all passwords-->
+            {% for password in passwords %}
+            <div class="card">
+                <div class="actions">&nbsp;Actions <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                    <a href="javascript:;" onclick="document.getElementById('delete-password{{password.id}}').click();" class="action-item">Delete</a>
+                        <form hidden="true" action="." method="POST">
+                            {% csrf_token %}
+                            <input type="text" id="password-id" name="password-id" value="{{password.id}}">
+                            <input type="submit" id="delete-password{{password.id}}" name="delete-password">
+                        </form>
+                </div>
+                <img width="80" height="80" src="{{password.logo}}" alt="">
+                <div class="name">{{password.name}}</div>
+                <input type="email" name="email" value="{{password.email}}" id="email_to_copy"><i class="fa fa-copy copy" title="copy to clipboard" onclick="CopyToClipboard('email_to_copy')"></i>
+                <input type="password" name="password" value="{{password.password}}" id="password_to_copy"><i class="fa fa-copy copy" title="copy to clipboard" onclick="CopyToClipboard('password_to_copy')"></i>
+            </div>
+            {% endfor %}
+        </div>
+
+        <footer>
+            <a href="">Link to the SourceCode</a>
+        </footer>
+    </body>
+</html>
